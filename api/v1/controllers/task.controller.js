@@ -1,6 +1,7 @@
 const Task = require("../models/task.model");
 
 const paginationHelper = require("../../../helpers/pagination");
+const searchHelper = require("../../../helpers/search");
 
 // [GET] /api/v1/tasks
 module.exports.index = async (req, res) => {
@@ -17,6 +18,13 @@ module.exports.index = async (req, res) => {
   
   //Het bo loc
 
+  // Search
+  const objectSearch = searchHelper(req.query);
+
+  if (objectSearch.regex) {
+    find.title = objectSearch.regex;
+  }
+  // End Search
 
 // Pagination
   const countTasks = await Task.countDocuments(find);
