@@ -1,10 +1,18 @@
-const Task = require("../../../models/task.model");
+const Task = require("../models/task.model");
 
 // [GET] /api/v1/tasks
 module.exports.index = async (req, res) => {
-  const tasks = await Task.find({
+  const find = {
     deleted: false
-  });
+  };
+
+
+  //Bo loc
+  if(req.query.status) {
+    find.status = req.query.status;
+  }
+  
+  const tasks = await Task.find(find);
 
   res.json(tasks);
 }
