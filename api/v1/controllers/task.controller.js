@@ -12,10 +12,28 @@ module.exports.index = async (req, res) => {
     find.status = req.query.status;
   }
   
-  const tasks = await Task.find(find);
+  
+  //Het bo loc
+
+
+  // Sort
+  const sort = {};
+
+  if(req.query.sortKey && req.query.sortValue) {
+    sort[req.query.sortKey] = req.query.sortValue;
+  }
+
+  const tasks = await Task.find(find).sort(sort)
+
+  //End Sort
 
   res.json(tasks);
 }
+
+  
+
+  
+
 
 module.exports.detail = async (req, res) => {
     const id = req.params.id;
