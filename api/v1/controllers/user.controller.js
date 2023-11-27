@@ -101,7 +101,7 @@ module.exports.forgotPassword = async (req, res) => {
     const objectForgotPassword = {
       email: email,
       otp: otp,
-      expireAt: Date.now() + timeExpire*60,
+      expireAt: Date.now() + timeExpire*60*1000,
     };
 
     // Việc 1: Lưu vào database
@@ -187,3 +187,21 @@ module.exports.resetPassword = async (req, res) => {
     message: "Đổi mật khẩu thành công!"
   });
 };
+
+// [POST] /api/v1/users/detail/:id
+module.exports.detail = async (req, res) => {
+  const id = req.params.id;
+
+  const user = await User.findOne({
+    _id: id,
+    deleted: false
+  }).select("-password -token");
+
+  // console.log(user);
+
+  res.json({
+    code: 200,
+    message: "Thành công!",
+    info: user
+  });
+}
