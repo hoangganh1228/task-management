@@ -188,20 +188,13 @@ module.exports.resetPassword = async (req, res) => {
   });
 };
 
-// [POST] /api/v1/users/detail/:id
+// [POST] /api/v1/users/detail/
 module.exports.detail = async (req, res) => {
-  const id = req.params.id;
-
-  const user = await User.findOne({
-    _id: id,
-    deleted: false
-  }).select("-password -token");
-
-  // console.log(user);
+  
 
   res.json({
     code: 200,
     message: "Thành công!",
-    info: user
+    info: req.user
   });
 }
